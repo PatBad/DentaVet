@@ -15,7 +15,7 @@ import {
 } from './licence.js';
 
 // ── Dev mode: set to true to bypass licence gate ──────────────────────────
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
