@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — DentaVet</title>
+<style>
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1e293b; line-height: 1.7; background: #ffffff; }
+  h1 { font-size: 24px; border-bottom: 2px solid #334155; padding-bottom: 8px; color: #0f172a; }
+  h2 { font-size: 18px; margin-top: 32px; color: #334155; }
+  p, li { font-size: 15px; color: #1e293b; }
+  ul { padding-left: 24px; }
+  a { color: #2563eb; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 3px; font-size: 14px; }
+  .updated { font-size: 13px; color: #64748b; }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #0f172a; color: #e2e8f0; }
+    h1 { color: #f1f5f9; border-bottom-color: #475569; }
+    h2 { color: #cbd5e1; }
+    p, li { color: #e2e8f0; }
+    a { color: #60a5fa; }
+    code { background: #1e293b; color: #e2e8f0; }
+    .updated { color: #94a3b8; }
+  }
+</style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 2 April 2026</p>
+
+  <p><strong>DentaVet</strong> is a browser extension that provides interactive dental charting for veterinary patients. Your privacy is important to us. This policy explains what data the extension accesses, how it is used, and how it is stored.</p>
+
+  <h2>Data Collection</h2>
+  <p>DentaVet does <strong>not</strong> collect, transmit, or share any personal data, usage data, or analytics with any external server, third party, or the extension developer.</p>
+
+  <h2>Data Storage</h2>
+  <p>All data created by the extension — including dental chart findings, patient names, and tooth mappings — is stored <strong>locally on your device</strong> using the Chrome browser's built-in storage (<code>chrome.storage.local</code>). This data never leaves your browser.</p>
+
+  <h2>EzyVet Integration</h2>
+  <p>When used alongside EzyVet, the extension interacts with the EzyVet web application within your browser. Specifically, it:</p>
+  <ul>
+    <li>Reads dental chart information displayed on the EzyVet page you are viewing</li>
+    <li>Writes dental findings into EzyVet's dental record forms on your behalf</li>
+    <li>Fetches the dental chart diagram image from your EzyVet session for report generation</li>
+  </ul>
+  <p>All of these interactions occur <strong>within your existing, authenticated EzyVet session</strong>. The extension does not access EzyVet's servers independently, does not store your EzyVet credentials, and does not transmit any EzyVet data externally.</p>
+
+  <h2>Permissions</h2>
+  <p>The extension requests the following browser permissions:</p>
+  <ul>
+    <li><strong>Side Panel</strong> — to display the dental charting interface</li>
+    <li><strong>Storage</strong> — to save chart data locally on your device</li>
+    <li><strong>Active Tab</strong> — to interact with the EzyVet page you are viewing</li>
+    <li><strong>Scripting</strong> — to read and write dental data on the EzyVet page</li>
+    <li><strong>Host access (*.ezyvet.com)</strong> — to enable integration with EzyVet pages only</li>
+  </ul>
+
+  <h2>Third-Party Services</h2>
+  <p>The extension uses the <strong>LemonSqueezy API</strong> solely for licence key activation and validation. Only your licence key is transmitted to this service for the purpose of verifying your subscription. No patient data, clinical findings, dental chart information, or personally identifiable information is ever sent to LemonSqueezy or any other third party.</p>
+  <p>No analytics, tracking, or advertising services are used.</p>
+
+  <h2>Data Sharing</h2>
+  <p>Your data is never shared with anyone. The extension developer has no access to any data you create or view using the extension.</p>
+
+  <h2>Changes to This Policy</h2>
+  <p>If this privacy policy is updated, the changes will be reflected on this page with an updated date. Significant changes will be noted in the extension's changelog.</p>
+
+  <h2>Contact</h2>
+  <p>If you have questions about this privacy policy, please contact:<br>
+  <strong>Dr. Andrew Rissik</strong><br>
+  Email: <a href="mailto:andrewrissik@gmail.com">andrewrissik@gmail.com</a></p>
+</body>
+</html>

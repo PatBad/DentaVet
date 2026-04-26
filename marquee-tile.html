@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1400px;
+    height: 560px;
+    overflow: hidden;
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #0F172A;
+    display: flex;
+  }
+
+  /* ── Left Panel ─────────────────────────────────────────── */
+  .left {
+    width: 530px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px 44px 50px 52px;
+    background: linear-gradient(160deg, #0F172A 0%, #162032 100%);
+    position: relative;
+  }
+  .left::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 48px; bottom: 48px; width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(46,196,182,0.28) 35%, rgba(46,196,182,0.28) 65%, transparent);
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .icon {
+    width: 66px; height: 66px;
+    border-radius: 14px;
+    box-shadow: 0 0 28px rgba(46,196,182,0.22);
+  }
+  .app-name {
+    font-size: 44px;
+    font-weight: 800;
+    color: #F1F5F9;
+    letter-spacing: -1.5px;
+  }
+
+  .headline {
+    font-size: 21px; font-weight: 700;
+    color: #F1F5F9; line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .subhead {
+    font-size: 13px; color: #64748B; line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .subhead strong { color: #2EC4B6; font-weight: 600; }
+
+  .features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
+  .features li { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: #CBD5E1; }
+  .check {
+    width: 17px; height: 17px; border-radius: 50%;
+    background: rgba(46,196,182,0.13);
+    border: 1px solid rgba(46,196,182,0.32);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 9px; color: #2EC4B6; font-weight: 700;
+  }
+
+  .badge-row { display: flex; gap: 7px; flex-wrap: wrap; }
+  .badge {
+    background: rgba(46,196,182,0.08);
+    border: 1px solid rgba(46,196,182,0.22);
+    color: #2EC4B6;
+    padding: 5px 12px; border-radius: 20px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.3px;
+  }
+
+  /* ── Right Panel ─────────────────────────────────────────── */
+  .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #111827 0%, #0D1520 100%);
+    padding: 18px 28px 16px;
+    gap: 10px;
+  }
+
+  .chart-svg {
+    display: block;
+    width: 100%;
+    flex-shrink: 1;
+  }
+
+  /* Findings chip */
+  .chip {
+    width: 100%;
+    background: rgba(46,196,182,0.06);
+    border: 1px solid rgba(46,196,182,0.18);
+    border-radius: 8px;
+    padding: 9px 16px;
+    display: flex; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
+  .chip-tooth { font-size: 12px; font-weight: 700; color: #2EC4B6; white-space: nowrap; }
+  .chip-findings { font-size: 11px; color: #64748B; flex: 1; white-space: nowrap; }
+  .chip-badge {
+    font-size: 10px; font-weight: 600;
+    padding: 3px 10px; border-radius: 10px; white-space: nowrap;
+  }
+  .chip-badge.severe  { background: rgba(231,76,60,0.18);  color: #E74C3C; }
+  .chip-badge.planned { background: rgba(230,126,34,0.18); color: #E67E22; }
+</style>
+</head>
+<body>
+
+<!-- ══ LEFT ══════════════════════════════════════════════════ -->
+<div class="left">
+  <div class="logo-row">
+    <img class="icon" src="icons/icon128.png" alt="DentaVet">
+    <span class="app-name">DentaVet</span>
+  </div>
+  <div class="headline">Veterinary dental charting,<br>reimagined.</div>
+  <div class="subhead">
+    Chart findings in seconds. Push everything to<br>
+    <strong>EzyVet</strong> automatically — with a single click.
+  </div>
+  <ul class="features">
+    <li><span class="check">✓</span> Dogs &amp; cats — Modified Triadan System</li>
+    <li><span class="check">✓</span> PD staging, tooth resorption, fractures &amp; extractions</li>
+    <li><span class="check">✓</span> Probing depths, furcation &amp; mobility grading</li>
+    <li><span class="check">✓</span> One-click push to EzyVet dental records</li>
+    <li><span class="check">✓</span> Formatted reports for medico-legal records</li>
+    <li><span class="check">✓</span> 100% local — no data ever leaves your browser</li>
+  </ul>
+  <div class="badge-row">
+    <span class="badge">14-Day Free Trial</span>
+    <span class="badge">Chrome Extension</span>
+    <span class="badge">EzyVet Integration</span>
+  </div>
+</div>
+
+<!-- ══ RIGHT ═════════════════════════════════════════════════ -->
+<div class="right">
+
+  <!--
+    SVG uses the EXACT viewBox and coordinates from the live app (900×480).
+    Crown paths from getToothCrownPath(); root paths from getRootPaths().
+    upper teeth: y(v)=v  → canine tip at y=-29 (up), base at y=+32
+    lower teeth: y(v)=-v → canine tip at y=+29 (down), base at y=-32
+  -->
+  <svg class="chart-svg" viewBox="0 0 900 480" preserveAspectRatio="xMidYMid meet">
+
+    <!-- Background -->
+    <rect width="900" height="480" fill="#0B1220" rx="10"/>
+
+    <!-- Jaw labels -->
+    <text x="450" y="16" text-anchor="middle" fill="#253448" font-size="9" font-family="sans-serif" letter-spacing="2" font-weight="600">UPPER JAW</text>
+    <text x="450" y="472" text-anchor="middle" fill="#253448" font-size="9" font-family="sans-serif" letter-spacing="2" font-weight="600">LOWER JAW</text>
+
+    <!-- Quadrant labels (exact positions from sidepanel.js) -->
+    <text x="240" y="38" text-anchor="middle" fill="#1E3248" font-size="8" font-family="sans-serif" letter-spacing="1">UPPER RIGHT</text>
+    <text x="660" y="38" text-anchor="middle" fill="#1E3248" font-size="8" font-family="sans-serif" letter-spacing="1">UPPER LEFT</text>
+    <text x="240" y="442" text-anchor="middle" fill="#1E3248" font-size="8" font-family="sans-serif" letter-spacing="1">LOWER RIGHT</text>
+    <text x="660" y="442" text-anchor="middle" fill="#1E3248" font-size="8" font-family="sans-serif" letter-spacing="1">LOWER LEFT</text>
+
+    <!-- Midline (exact from sidepanel.js) -->
+    <line x1="450" y1="50" x2="450" y2="430" stroke="#182840" stroke-width="1" stroke-dasharray="4,3"/>
+
+    <!-- Orientation labels -->
+    <text x="28" y="210" text-anchor="middle" fill="#1A2E44" font-size="7.5" font-family="sans-serif">Patient R →</text>
+    <text x="872" y="210" text-anchor="middle" fill="#1A2E44" font-size="7.5" font-family="sans-serif">← Patient L</text>
+
+
+    <!-- ════════════════════════════════════════════════════
+         UPPER RIGHT  (100s)  —  jaw=upper, y(v)=v
+         Crown tip = negative y (pointing up)
+         Root lines go up (dir=-1)
+         Labels below crown at y = +(ry+13), dominant-baseline=hanging
+    ════════════════════════════════════════════════════ -->
+
+    <!-- 101  Upper Right 1st Incisor  x=430 y=88  normal -->
+    <g transform="translate(430,88)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">101</text>
+    </g>
+
+    <!-- 102  Upper Right 2nd Incisor  x=405 y=82  normal -->
+    <g transform="translate(405,82)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">102</text>
+    </g>
+
+    <!-- 103  Upper Right 3rd Incisor  x=377 y=79  normal -->
+    <g transform="translate(377,79)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">103</text>
+    </g>
+
+    <!-- 104  Upper Right Canine  x=340 y=98  SEVERE -->
+    <g transform="translate(340,98)">
+      <path d="M 0,-32 L 0,-72" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-29 C -16,-24 -16,5 0,32 C 16,5 16,-24 0,-29 Z" fill="#E74C3C" stroke="#B83A2D" stroke-width="1.5"/>
+      <text x="0" y="45" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">104</text>
+    </g>
+
+    <!-- 105  Upper Right 1st Premolar  x=304 y=120  MILD -->
+    <g transform="translate(304,120)">
+      <path d="M 0,-21 L 0,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">105</text>
+    </g>
+
+    <!-- 106  Upper Right 2nd Premolar  x=271 y=132  normal  (2 roots) -->
+    <g transform="translate(271,132)">
+      <path d="M -7,-21 L -9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-21 L 9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">106</text>
+    </g>
+
+    <!-- 107  Upper Right 3rd Premolar  x=233 y=141  normal  (2 roots) -->
+    <g transform="translate(233,141)">
+      <path d="M -7,-21 L -9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-21 L 9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">107</text>
+    </g>
+
+    <!-- 108  Upper Right Carnassial  x=183 y=150  MODERATE  (3 roots) -->
+    <g transform="translate(183,150)">
+      <path d="M 0,-26 L 0,-56"   stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -12,-26 L -14,-54" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 12,-26 L 14,-54"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-24 C -19,-22 -20,3 -18,15 Q -11,29 -6,24 Q -1,20 0,23 Q 1,20 6,24 Q 11,29 18,15 C 20,3 19,-22 0,-24 Z" fill="#E67E22" stroke="#C0692C" stroke-width="1.5"/>
+      <text x="0" y="37" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">108</text>
+    </g>
+
+    <!-- 109  Upper Right 1st Molar  x=139 y=157  MILD  (3 roots) -->
+    <g transform="translate(139,157)">
+      <path d="M 0,-21 L 0,-46"   stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -12,-21 L -14,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 12,-21 L 14,-44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -18,-18 Q 0,-19 18,-18 C 19,-14 19,8 15,13 Q 11,22 6,19 Q 0,23 -6,19 Q -11,22 -15,13 C -19,8 -19,-14 -18,-18 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">109</text>
+    </g>
+
+    <!-- 110  Upper Right 2nd Molar  x=101 y=160  normal  (2 roots) -->
+    <g transform="translate(101,160)">
+      <path d="M -7,-18 L -9,-41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-18 L 9,-41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,-15 Q 0,-16 14,-15 C 15,-11 15,6 13,11 Q 9,19 3,16 Q 0,19 -3,16 Q -9,19 -13,11 C -15,6 -15,-11 -14,-15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="29" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">110</text>
+    </g>
+
+
+    <!-- ════════════════════════════════════════════════════
+         UPPER LEFT  (200s)  —  jaw=upper, y(v)=v
+    ════════════════════════════════════════════════════ -->
+
+    <!-- 201  x=470 y=88  normal -->
+    <g transform="translate(470,88)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">201</text>
+    </g>
+
+    <!-- 202  x=495 y=82  normal -->
+    <g transform="translate(495,82)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">202</text>
+    </g>
+
+    <!-- 203  x=523 y=79  normal -->
+    <g transform="translate(523,79)">
+      <path d="M 0,-16 L 0,-39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,-13 Q 0,-14 9,-13 L 10,13 Q 0,14 -10,13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="27" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">203</text>
+    </g>
+
+    <!-- 204  Upper Left Canine  x=560 y=98  EXTRACTED -->
+    <g transform="translate(560,98)">
+      <path d="M 0,-32 L 0,-72" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-29 C -16,-24 -16,5 0,32 C 16,5 16,-24 0,-29 Z" fill="#4A90D9" stroke="#3070B0" stroke-width="1.5"/>
+      <!-- X mark -->
+      <line x1="-9" y1="-9" x2="9" y2="9" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="9" y1="-9" x2="-9" y2="9" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      <text x="0" y="45" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">204</text>
+    </g>
+
+    <!-- 205  Upper Left 1st Premolar  x=596 y=120  normal  (1 root) -->
+    <g transform="translate(596,120)">
+      <path d="M 0,-21 L 0,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">205</text>
+    </g>
+
+    <!-- 206  Upper Left 2nd Premolar  x=629 y=132  MILD  (2 roots) -->
+    <g transform="translate(629,132)">
+      <path d="M -7,-21 L -9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-21 L 9,-44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">206</text>
+    </g>
+
+    <!-- 207  Upper Left 3rd Premolar  x=667 y=141  normal  (2 roots) -->
+    <g transform="translate(667,141)">
+      <path d="M -7,-21 L -9,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-21 L 9,-44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-19 C -14,-16 -14,8 -11,13 Q -6,23 0,19 Q 6,23 11,13 C 14,8 14,-16 0,-19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">207</text>
+    </g>
+
+    <!-- 208  Upper Left Carnassial  x=717 y=150  MILD  (3 roots) -->
+    <g transform="translate(717,150)">
+      <path d="M 0,-26 L 0,-56"   stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -12,-26 L -14,-54" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 12,-26 L 14,-54"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,-24 C -19,-22 -20,3 -18,15 Q -11,29 -6,24 Q -1,20 0,23 Q 1,20 6,24 Q 11,29 18,15 C 20,3 19,-22 0,-24 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="37" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">208</text>
+    </g>
+
+    <!-- 209  Upper Left 1st Molar  x=761 y=157  normal  (3 roots) -->
+    <g transform="translate(761,157)">
+      <path d="M 0,-21 L 0,-46"   stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -12,-21 L -14,-44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 12,-21 L 14,-44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -18,-18 Q 0,-19 18,-18 C 19,-14 19,8 15,13 Q 11,22 6,19 Q 0,23 -6,19 Q -11,22 -15,13 C -19,8 -19,-14 -18,-18 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="32" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">209</text>
+    </g>
+
+    <!-- 210  Upper Left 2nd Molar  x=799 y=160  normal  (2 roots) -->
+    <g transform="translate(799,160)">
+      <path d="M -7,-18 L -9,-41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,-18 L 9,-41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,-15 Q 0,-16 14,-15 C 15,-11 15,6 13,11 Q 9,19 3,16 Q 0,19 -3,16 Q -9,19 -13,11 C -15,6 -15,-11 -14,-15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="29" dominant-baseline="hanging" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">210</text>
+    </g>
+
+
+    <!-- ════════════════════════════════════════════════════
+         LOWER LEFT  (300s)  —  jaw=lower, y(v)=-v
+         Crown tip = positive y (pointing down)
+         Root lines go down (dir=+1)
+         Labels above crown at y = -(ry+13), dominant-baseline=auto
+    ════════════════════════════════════════════════════ -->
+
+    <!-- 301  Lower Left 1st Incisor  x=470 y=330  normal -->
+    <g transform="translate(470,330)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">301</text>
+    </g>
+
+    <!-- 302  x=495 y=336  normal -->
+    <g transform="translate(495,336)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">302</text>
+    </g>
+
+    <!-- 303  x=523 y=340  normal -->
+    <g transform="translate(523,340)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">303</text>
+    </g>
+
+    <!-- 304  Lower Left Canine  x=560 y=318  SEVERE -->
+    <g transform="translate(560,318)">
+      <path d="M 0,32 L 0,72" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,29 C -16,24 -16,-5 0,-32 C 16,-5 16,24 0,29 Z" fill="#E74C3C" stroke="#B83A2D" stroke-width="1.5"/>
+      <text x="0" y="-43" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">304</text>
+    </g>
+
+    <!-- 305  Lower Left 1st Premolar  x=596 y=298  normal  (1 root) -->
+    <g transform="translate(596,298)">
+      <path d="M 0,21 L 0,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">305</text>
+    </g>
+
+    <!-- 306  Lower Left 2nd Premolar  x=629 y=286  MODERATE  (2 roots) -->
+    <g transform="translate(629,286)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#E67E22" stroke="#C0692C" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">306</text>
+    </g>
+
+    <!-- 307  Lower Left 3rd Premolar  x=667 y=275  normal  (2 roots) -->
+    <g transform="translate(667,275)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">307</text>
+    </g>
+
+    <!-- 308  Lower Left Carnassial  x=710 y=264  normal  (2 roots, spread=10) -->
+    <g transform="translate(710,264)">
+      <path d="M -10,26 L -12,54" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 10,26 L 12,54"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,24 C -19,22 -20,-3 -18,-15 Q -11,-29 -6,-24 Q -1,-20 0,-23 Q 1,-20 6,-24 Q 11,-29 18,-15 C 20,-3 19,22 0,24 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-37" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">308</text>
+    </g>
+
+    <!-- 309  Lower Left 1st Molar  x=750 y=257  normal  (2 roots) -->
+    <g transform="translate(750,257)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -18,18 Q 0,19 18,18 C 19,14 19,-8 15,-13 Q 11,-22 6,-19 Q 0,-23 -6,-19 Q -11,-22 -15,-13 C -19,-8 -19,14 -18,18 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">309</text>
+    </g>
+
+    <!-- 310  Lower Left 2nd Molar  x=786 y=252  normal  (2 roots) -->
+    <g transform="translate(786,252)">
+      <path d="M -7,18 L -9,41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,18 L 9,41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,15 Q 0,16 14,15 C 15,11 15,-6 13,-11 Q 9,-19 3,-16 Q 0,-19 -3,-16 Q -9,-19 -13,-11 C -15,-6 -15,11 -14,15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-29" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">310</text>
+    </g>
+
+    <!-- 311  Lower Left 3rd Molar  x=817 y=249  normal  (2 roots) -->
+    <g transform="translate(817,249)">
+      <path d="M -7,18 L -9,41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,18 L 9,41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,15 Q 0,16 14,15 C 15,11 15,-6 13,-11 Q 9,-19 3,-16 Q 0,-19 -3,-16 Q -9,-19 -13,-11 C -15,-6 -15,11 -14,15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-29" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">311</text>
+    </g>
+
+
+    <!-- ════════════════════════════════════════════════════
+         LOWER RIGHT  (400s)  —  jaw=lower, y(v)=-v
+    ════════════════════════════════════════════════════ -->
+
+    <!-- 401  Lower Right 1st Incisor  x=430 y=330  normal -->
+    <g transform="translate(430,330)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">401</text>
+    </g>
+
+    <!-- 402  x=405 y=336  normal -->
+    <g transform="translate(405,336)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">402</text>
+    </g>
+
+    <!-- 403  x=377 y=340  normal -->
+    <g transform="translate(377,340)">
+      <path d="M 0,16 L 0,39" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -9,13 Q 0,14 9,13 L 10,-13 Q 0,-14 -10,-13 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-27" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">403</text>
+    </g>
+
+    <!-- 404  Lower Right Canine  x=340 y=318  MILD -->
+    <g transform="translate(340,318)">
+      <path d="M 0,32 L 0,72" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,29 C -16,24 -16,-5 0,-32 C 16,-5 16,24 0,29 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="-43" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">404</text>
+    </g>
+
+    <!-- 405  Lower Right 1st Premolar  x=304 y=298  normal  (1 root) -->
+    <g transform="translate(304,298)">
+      <path d="M 0,21 L 0,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">405</text>
+    </g>
+
+    <!-- 406  Lower Right 2nd Premolar  x=271 y=286  normal  (2 roots) -->
+    <g transform="translate(271,286)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">406</text>
+    </g>
+
+    <!-- 407  Lower Right 3rd Premolar  x=233 y=275  MILD  (2 roots) -->
+    <g transform="translate(233,275)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,19 C -14,16 -14,-8 -11,-13 Q -6,-23 0,-19 Q 6,-23 11,-13 C 14,-8 14,16 0,19 Z" fill="#F1C40F" stroke="#B8960C" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">407</text>
+    </g>
+
+    <!-- 408  Lower Right Carnassial  x=190 y=264  normal  (2 roots, spread=10) -->
+    <g transform="translate(190,264)">
+      <path d="M -10,26 L -12,54" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 10,26 L 12,54"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 0,24 C -19,22 -20,-3 -18,-15 Q -11,-29 -6,-24 Q -1,-20 0,-23 Q 1,-20 6,-24 Q 11,-29 18,-15 C 20,-3 19,22 0,24 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-37" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">408</text>
+    </g>
+
+    <!-- 409  Lower Right 1st Molar  x=150 y=257  normal  (2 roots) -->
+    <g transform="translate(150,257)">
+      <path d="M -7,21 L -9,44" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,21 L 9,44"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -18,18 Q 0,19 18,18 C 19,14 19,-8 15,-13 Q 11,-22 6,-19 Q 0,-23 -6,-19 Q -11,-22 -15,-13 C -19,-8 -19,14 -18,18 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-32" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">409</text>
+    </g>
+
+    <!-- 410  Lower Right 2nd Molar  x=114 y=252  normal  (2 roots) -->
+    <g transform="translate(114,252)">
+      <path d="M -7,18 L -9,41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,18 L 9,41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,15 Q 0,16 14,15 C 15,11 15,-6 13,-11 Q 9,-19 3,-16 Q 0,-19 -3,-16 Q -9,-19 -13,-11 C -15,-6 -15,11 -14,15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-29" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">410</text>
+    </g>
+
+    <!-- 411  Lower Right 3rd Molar  x=83 y=249  normal  (2 roots) -->
+    <g transform="translate(83,249)">
+      <path d="M -7,18 L -9,41" stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M 7,18 L 9,41"  stroke="#3A4A5C" stroke-width="1.3" fill="none"/>
+      <path d="M -14,15 Q 0,16 14,15 C 15,11 15,-6 13,-11 Q 9,-19 3,-16 Q 0,-19 -3,-16 Q -9,-19 -13,-11 C -15,-6 -15,11 -14,15 Z" fill="#E8E4DF" stroke="#475569" stroke-width="1.5"/>
+      <text x="0" y="-29" text-anchor="middle" fill="#4A5568" font-size="9" font-family="sans-serif">411</text>
+    </g>
+
+    <!-- Colour legend -->
+    <g transform="translate(220,462)">
+      <circle cx="0"   cy="0" r="5" fill="#E8E4DF"/><text x="8"   y="4" fill="#3A4A5C" font-size="8.5" font-family="sans-serif">Normal</text>
+      <circle cx="64"  cy="0" r="5" fill="#F1C40F"/><text x="72"  y="4" fill="#3A4A5C" font-size="8.5" font-family="sans-serif">Mild</text>
+      <circle cx="114" cy="0" r="5" fill="#E67E22"/><text x="122" y="4" fill="#3A4A5C" font-size="8.5" font-family="sans-serif">Moderate</text>
+      <circle cx="192" cy="0" r="5" fill="#E74C3C"/><text x="200" y="4" fill="#3A4A5C" font-size="8.5" font-family="sans-serif">Severe</text>
+      <circle cx="252" cy="0" r="5" fill="#4A90D9"/><text x="260" y="4" fill="#3A4A5C" font-size="8.5" font-family="sans-serif">Extracted</text>
+    </g>
+
+  </svg>
+
+  <!-- Findings chip -->
+  <div class="chip">
+    <span class="chip-tooth">104 — Upper Right Canine</span>
+    <span class="chip-findings">PD4 · CCF · Probe: MB 8mm / B 7mm / DB 8mm</span>
+    <span class="chip-badge severe">Severe</span>
+    <span class="chip-badge planned">Extraction planned</span>
+  </div>
+
+</div>
+</body>
+</html>

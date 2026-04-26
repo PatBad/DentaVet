@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- Open this file in a browser, right-click each image and save as icon16.png, icon48.png, icon128.png -->
+<html>
+<body style="background:#1E293B;padding:20px;font-family:sans-serif;color:white">
+<h3>Icon Generator — Right-click each canvas and save as the labeled filename</h3>
+<div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap">
+  <div>
+    <p>icon16.png</p>
+    <canvas id="c16" width="16" height="16"></canvas>
+  </div>
+  <div>
+    <p>icon48.png</p>
+    <canvas id="c48" width="48" height="48"></canvas>
+  </div>
+  <div>
+    <p>icon128.png</p>
+    <canvas id="c128" width="128" height="128"></canvas>
+  </div>
+</div>
+<script>
+function drawIcon(canvas) {
+  const s = canvas.width;
+  const ctx = canvas.getContext('2d');
+  const r = s * 0.16;
+
+  // Background — EzyVet teal gradient
+  const grad = ctx.createLinearGradient(0, 0, 0, s);
+  grad.addColorStop(0, '#14B8A6');
+  grad.addColorStop(1, '#0D7377');
+  ctx.fillStyle = grad;
+  roundRect(ctx, 0, 0, s, s, r);
+  ctx.fill();
+
+  // Canine fang tooth — single pointed root
+  ctx.fillStyle = 'white';
+  ctx.globalAlpha = 0.95;
+  const cx = s * 0.5;
+
+  ctx.beginPath();
+  // Crown — wider, slightly curved top
+  const crownTop = s * 0.12;
+  const crownW = s * 0.38;
+  const crownH = s * 0.32;
+
+  // Start top-left of crown
+  ctx.moveTo(cx - crownW, crownTop + s * 0.06);
+  // Top edge with slight dome
+  ctx.quadraticCurveTo(cx - crownW * 0.3, crownTop - s * 0.02, cx, crownTop);
+  ctx.quadraticCurveTo(cx + crownW * 0.3, crownTop - s * 0.02, cx + crownW, crownTop + s * 0.06);
+  // Right side of crown going down
+  ctx.quadraticCurveTo(cx + crownW + s * 0.02, crownTop + crownH * 0.5, cx + crownW * 0.85, crownTop + crownH);
+  // Neck narrows then tapers to pointed root
+  const neckY = crownTop + crownH;
+  const rootTip = s * 0.88;
+  ctx.quadraticCurveTo(cx + crownW * 0.5, neckY + s * 0.04, cx + crownW * 0.28, neckY + s * 0.12);
+  // Right side of root curving to tip
+  ctx.quadraticCurveTo(cx + crownW * 0.12, rootTip - s * 0.12, cx, rootTip);
+  // Left side of root curving back up
+  ctx.quadraticCurveTo(cx - crownW * 0.12, rootTip - s * 0.12, cx - crownW * 0.28, neckY + s * 0.12);
+  ctx.quadraticCurveTo(cx - crownW * 0.5, neckY + s * 0.04, cx - crownW * 0.85, crownTop + crownH);
+  // Left side of crown back up
+  ctx.quadraticCurveTo(cx - crownW - s * 0.02, crownTop + crownH * 0.5, cx - crownW, crownTop + s * 0.06);
+  ctx.closePath();
+  ctx.fill();
+
+  // Subtle crown line (gum line)
+  if (s >= 48) {
+    ctx.globalAlpha = 0.15;
+    ctx.strokeStyle = '#0D7377';
+    ctx.lineWidth = s * 0.015;
+    ctx.beginPath();
+    ctx.moveTo(cx - crownW * 0.7, neckY - s * 0.01);
+    ctx.quadraticCurveTo(cx, neckY + s * 0.02, cx + crownW * 0.7, neckY - s * 0.01);
+    ctx.stroke();
+  }
+
+  // Shine highlight
+  ctx.globalAlpha = 0.25;
+  ctx.fillStyle = 'white';
+  ctx.beginPath();
+  ctx.ellipse(cx - crownW * 0.25, crownTop + crownH * 0.35, crownW * 0.2, crownH * 0.28, -0.25, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+['c16','c48','c128'].forEach(id => drawIcon(document.getElementById(id)));
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentaVet</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-top">
+      <div class="app-title">
+        <img class="app-icon" src="icons/icon48.png" alt="DentaVet">
+        <span>DentaVet</span>
+      </div>
+      <div class="header-actions">
+        <button id="btn-settings" class="header-action-btn" title="Settings / Ezyvet Setup">⚙ Settings</button>
+        <button id="btn-shortcut-help" class="header-action-btn" title="Keyboard shortcuts">⌨ Shortcuts</button>
+      </div>
+    </div>
+    <div class="header-controls">
+      <div class="species-toggle">
+        <button id="btn-dog" class="species-btn active" data-species="dog">🐕 Dog</button>
+        <button id="btn-cat" class="species-btn" data-species="cat">🐈 Cat</button>
+      </div>
+      <button id="btn-scan-patient" class="action-btn scan-btn" title="Scan patient from EzyVet">🔍 Scan EzyVet for Patient</button>
+      <input id="patient-name" type="text" placeholder="Patient name (optional)" class="patient-input" autocomplete="off">
+      <button id="btn-new-chart" class="action-btn" title="New chart">New</button>
+    </div>
+  </header>
+
+  <!-- ── Trial Banner ────────────────────────────────────────────── -->
+  <div id="trial-banner" class="trial-banner hidden">
+    <span id="trial-banner-text">Trial: 14 days remaining</span>
+    <button id="trial-banner-activate" class="trial-banner-btn">Activate Licence</button>
+  </div>
+
+  <!-- ── Landing Page ────────────────────────────────────────────── -->
+  <div id="landing-page" class="landing-page">
+    <div class="landing-content">
+      <img src="icons/icon48.png" alt="DentaVet" class="landing-logo">
+      <h2 class="landing-title">New Chart</h2>
+      <p class="landing-subtitle">Select a species or scan from EzyVet</p>
+      <div class="landing-options">
+        <button id="landing-dog" class="landing-circle" title="Start a dog dental chart">
+          <span class="landing-circle-emoji">🐕</span>
+          <span class="landing-circle-label">Dog</span>
+        </button>
+        <button id="landing-cat" class="landing-circle" title="Start a cat dental chart">
+          <span class="landing-circle-emoji">🐈</span>
+          <span class="landing-circle-label">Cat</span>
+        </button>
+        <button id="landing-scan" class="landing-circle landing-circle-scan" title="Auto-detect patient from EzyVet">
+          <span class="landing-circle-emoji">🔍</span>
+          <span class="landing-circle-label">Scan EzyVet</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab Navigation ─────────────────────────────────────────── -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="chart">Chart</button>
+    <button class="tab-btn" data-tab="summary">Summary</button>
+    <button class="tab-btn" data-tab="settings">Ezyvet</button>
+  </nav>
+
+  <!-- ── Chart Tab ──────────────────────────────────────────────── -->
+  <div id="tab-chart" class="tab-content active">
+    <div class="chart-area">
+      <!-- Jaw labels -->
+      <div class="jaw-labels">
+        <div class="jaw-label-row">
+          <span class="jaw-label">UPPER JAW</span>
+          <div class="orientation-labels">
+            <span class="orient-label">Patient R →</span>
+            <span class="orient-label">← Patient L</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SVG Dental Chart -->
+      <div class="svg-wrapper">
+        <svg id="dental-chart-svg"
+             viewBox="0 0 900 480"
+             xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid meet">
+          <!-- Rendered by sidepanel.js -->
+        </svg>
+      </div>
+
+      <div class="jaw-labels jaw-labels-lower">
+        <span class="jaw-label">LOWER JAW</span>
+      </div>
+    </div>
+
+    <!-- Color Legend -->
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#6B7280"></span>Normal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#F1C40F"></span>Mild</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#E67E22"></span>Moderate</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#E74C3C"></span>Severe</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#4A90D9"></span>Extracted</span>
+    </div>
+
+    <!-- ── Findings Panel (inline, below chart) ──────────────────── -->
+    <div id="findings-drawer" class="findings-drawer" aria-hidden="true">
+      <div class="drawer-handle" id="drawer-handle">
+        <span id="drawer-tooth-title">Select a tooth</span>
+        <div class="drawer-handle-actions">
+          <button id="btn-clear-tooth" class="action-btn danger drawer-clear-btn" title="Clear all findings for this tooth">Clear</button>
+          <button id="drawer-close" class="icon-btn" title="Close (Esc)">✕</button>
+        </div>
+      </div>
+      <div id="drawer-body" class="drawer-body">
+        <!-- Populated by sidepanel.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Summary Tab ────────────────────────────────────────────── -->
+  <div id="tab-summary" class="tab-content">
+    <div class="summary-header">
+      <h3 id="summary-title">Dental Chart Summary</h3>
+      <div class="summary-actions">
+        <button id="btn-ezyvet-report" class="action-btn primary">Report from EzyVet</button>
+        <button id="btn-export-json" class="action-btn">Export JSON</button>
+        <button id="btn-import-json" class="action-btn">Import JSON</button>
+        <input id="import-file-input" type="file" accept=".json" style="display:none">
+      </div>
+    </div>
+    <div id="summary-content" class="summary-content">
+      <p class="empty-msg">No findings recorded yet. Start charting to see a summary.</p>
+    </div>
+  </div>
+
+  <!-- ── Ezyvet Settings Tab ────────────────────────────────────── -->
+  <div id="tab-settings" class="tab-content">
+
+    <!-- Licence Status -->
+    <div class="settings-section" id="licence-settings">
+      <h3>Licence</h3>
+      <div class="licence-status-row" id="licence-status-row">
+        <span class="status-dot status-unknown" id="licence-status-dot"></span>
+        <span id="licence-status-text">Checking...</span>
+      </div>
+      <div id="licence-settings-actions"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="ezyvet-status" id="ezyvet-status">
+        <span class="status-dot status-unknown"></span>
+        <span id="ezyvet-status-text">Not connected to Ezyvet</span>
+      </div>
+    </div>
+
+    <!-- Setup card: shown when current species has no map -->
+    <div id="setup-card" class="settings-section setup-card" style="display:none">
+      <h3 id="setup-card-title">One-time setup</h3>
+      <p class="settings-desc" id="setup-card-desc">
+        Before you can push findings to EzyVet, you need to map the teeth in the dental chart.
+        Open any patient's dental chart in EzyVet, then click <strong>Start Mapping</strong> below.
+        Click each tooth number in the panel, then click its polygon in the chart. This only needs to be done once per species.
+      </p>
+      <div id="setup-card-status" class="notes-selector-display"></div>
+      <button id="btn-map-all-teeth" class="action-btn primary large">Start Mapping</button>
+    </div>
+
+    <!-- Push section: shown when current species IS mapped -->
+    <div id="push-section" style="display:none">
+      <div class="settings-section">
+        <div id="mapping-status" class="mapping-status-bar">
+          <span id="mapping-status-text"></span>
+          <button id="btn-remap-teeth" class="action-btn-link">Re-map</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <p class="settings-desc">
+          For each tooth with findings, the extension will click it in EzyVet, tick the correct
+          checkboxes (PD, TR, fracture, etc.) and fill in probing depths — automatically.
+        </p>
+        <button id="btn-push-ezyvet" class="action-btn primary large">Push Chart to EzyVet</button>
+        <div id="push-status" class="push-status"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>What will be pushed</h3>
+        <pre id="chart-text-preview" class="chart-text-preview">No findings yet.</pre>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Reference -->
+    <div class="settings-section">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcuts-ref">
+        <div class="shortcuts-ref-col">
+          <h4>Navigation</h4>
+          <div class="shortcut-ref-row"><kbd>Tab</kbd> Next tooth</div>
+          <div class="shortcut-ref-row"><kbd>Shift+Tab</kbd> Previous tooth</div>
+          <div class="shortcut-ref-row"><kbd>↑ ↓ ← →</kbd> Spatial navigation</div>
+          <div class="shortcut-ref-row"><kbd>Esc</kbd> Deselect / close</div>
+          <h4>Findings</h4>
+          <div class="shortcut-ref-row"><kbd>0</kbd>–<kbd>4</kbd> Set PD stage</div>
+          <div class="shortcut-ref-row"><kbd>T</kbd> then <kbd>1</kbd>–<kbd>5</kbd> Set TR stage</div>
+          <div class="shortcut-ref-row"><kbd>X</kbd> Fracture type picker</div>
+          <div class="shortcut-ref-row"><kbd>M</kbd> Toggle missing</div>
+        </div>
+        <div class="shortcuts-ref-col">
+          <h4>Procedures</h4>
+          <div class="shortcut-ref-row"><kbd>E</kbd> Extraction (simple)</div>
+          <div class="shortcut-ref-row"><kbd>Shift+E</kbd> Extraction (surgical)</div>
+          <div class="shortcut-ref-row"><kbd>S</kbd> Scaling (PRO)</div>
+          <div class="shortcut-ref-row"><kbd>R</kbd> Root planing closed</div>
+          <div class="shortcut-ref-row"><kbd>Shift+R</kbd> Root planing open</div>
+          <div class="shortcut-ref-row"><kbd>G</kbd> Gingival curettage</div>
+          <h4>Other</h4>
+          <div class="shortcut-ref-row"><kbd>Del</kbd> Clear tooth findings</div>
+          <div class="shortcut-ref-row"><kbd>Ctrl+Z</kbd> Undo</div>
+          <div class="shortcut-ref-row"><kbd>?</kbd> Shortcut overlay</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Keyboard Shortcut Overlay ──────────────────────────────── -->
+  <div id="shortcut-overlay" class="overlay hidden">
+    <div class="overlay-card">
+      <div class="overlay-header">
+        <h3>Keyboard Shortcuts</h3>
+        <button class="icon-btn" id="close-shortcut-overlay">✕</button>
+      </div>
+      <div class="shortcut-grid">
+        <div class="shortcut-col">
+          <h4>Navigation</h4>
+          <div class="shortcut-row"><kbd>Tab</kbd> Next tooth</div>
+          <div class="shortcut-row"><kbd>Shift+Tab</kbd> Previous tooth</div>
+          <div class="shortcut-row"><kbd>↑↓←→</kbd> Spatial navigation</div>
+          <div class="shortcut-row"><kbd>Esc</kbd> Deselect / close</div>
+          <h4>Findings</h4>
+          <div class="shortcut-row"><kbd>0</kbd>–<kbd>4</kbd> Set PD stage</div>
+          <div class="shortcut-row"><kbd>T</kbd> then <kbd>1</kbd>–<kbd>5</kbd> Set TR stage</div>
+          <div class="shortcut-row"><kbd>X</kbd> Fracture type picker</div>
+          <div class="shortcut-row"><kbd>M</kbd> Toggle missing</div>
+        </div>
+        <div class="shortcut-col">
+          <h4>Procedures</h4>
+          <div class="shortcut-row"><kbd>E</kbd> Extraction — simple</div>
+          <div class="shortcut-row"><kbd>Shift+E</kbd> Extraction — surgical</div>
+          <div class="shortcut-row"><kbd>S</kbd> Scaling (PRO)</div>
+          <div class="shortcut-row"><kbd>R</kbd> Root planing closed</div>
+          <div class="shortcut-row"><kbd>Shift+R</kbd> Root planing open</div>
+          <div class="shortcut-row"><kbd>G</kbd> Gingival curettage</div>
+          <div class="shortcut-row"><kbd>Del</kbd> Clear tooth findings</div>
+          <h4>Other</h4>
+          <div class="shortcut-row"><kbd>Ctrl+Z</kbd> Undo</div>
+          <div class="shortcut-row"><kbd>?</kbd> This help</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Fracture Popup ─────────────────────────────────────────── -->
+  <div id="fracture-popup" class="fracture-popup hidden">
+    <div class="popup-title">Select Fracture Type</div>
+    <div class="fracture-btns">
+      <button class="fracture-opt" data-val="EI"><kbd>1</kbd> EI<br><small>Enamel infraction</small></button>
+      <button class="fracture-opt" data-val="EF"><kbd>2</kbd> EF<br><small>Enamel fracture</small></button>
+      <button class="fracture-opt" data-val="UCF"><kbd>3</kbd> UCF<br><small>Uncomplicated crown</small></button>
+      <button class="fracture-opt" data-val="CCF"><kbd>4</kbd> CCF<br><small>Complicated crown</small></button>
+      <button class="fracture-opt" data-val="UCRF"><kbd>5</kbd> UCRF<br><small>Uncompl. crown-root</small></button>
+      <button class="fracture-opt" data-val="CCRF"><kbd>6</kbd> CCRF<br><small>Compl. crown-root</small></button>
+      <button class="fracture-opt" data-val="RF"><kbd>7</kbd> RF<br><small>Root fracture</small></button>
+    </div>
+    <button class="fracture-cancel">Cancel (Esc)</button>
+  </div>
+
+  <!-- ── Licence Gate Overlay ──────────────────────────────────── -->
+  <div id="licence-gate" class="licence-gate hidden">
+    <div class="licence-gate-card">
+      <div class="licence-gate-header">
+        <img src="icons/icon48.png" alt="DentaVet" class="licence-gate-icon">
+        <h2>Welcome to DentaVet</h2>
+        <p class="licence-gate-subtitle">Veterinary dental charting made simple</p>
+      </div>
+      <div class="licence-gate-body">
+        <div class="licence-input-group">
+          <label for="licence-key-input">Licence Key</label>
+          <input id="licence-key-input" type="text" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" class="licence-input" autocomplete="off" spellcheck="false">
+          <div id="licence-error" class="licence-error"></div>
+        </div>
+        <button id="btn-activate-licence" class="action-btn primary large">Activate Licence</button>
+        <div class="licence-divider"><span>or</span></div>
+        <button id="btn-start-trial" class="action-btn large licence-trial-btn">Start 14-Day Free Trial</button>
+        <a id="licence-buy-link" href="https://lemonsqueezy.com" target="_blank" class="licence-buy-link">Purchase a licence key</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast Notification ─────────────────────────────────────── -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

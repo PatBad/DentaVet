@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 440px;
+    height: 280px;
+    overflow: hidden;
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Subtle tooth silhouettes in background */
+  .bg-teeth {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    overflow: hidden;
+  }
+  .bg-tooth {
+    position: absolute;
+    font-size: 80px;
+    color: white;
+  }
+  .bg-tooth:nth-child(1) { top: -10px; left: -10px; transform: rotate(-20deg); }
+  .bg-tooth:nth-child(2) { top: 60px; right: 20px; transform: rotate(15deg); font-size: 60px; }
+  .bg-tooth:nth-child(3) { bottom: -5px; left: 80px; transform: rotate(25deg); font-size: 70px; }
+  .bg-tooth:nth-child(4) { bottom: 30px; right: 80px; transform: rotate(-10deg); font-size: 50px; }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(14, 165, 165, 0.3);
+  }
+
+  .app-name {
+    font-size: 38px;
+    font-weight: 800;
+    color: #F1F5F9;
+    letter-spacing: -0.5px;
+  }
+
+  .tagline {
+    font-size: 15px;
+    color: #94A3B8;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 360px;
+  }
+
+  .tagline strong {
+    color: #2EC4B6;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .badge {
+    background: rgba(46, 196, 182, 0.12);
+    border: 1px solid rgba(46, 196, 182, 0.3);
+    color: #2EC4B6;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-teeth">
+    <div class="bg-tooth">&#x1F9B7;</div>
+    <div class="bg-tooth">&#x1F9B7;</div>
+    <div class="bg-tooth">&#x1F9B7;</div>
+    <div class="bg-tooth">&#x1F9B7;</div>
+  </div>
+  <div class="content">
+    <div class="logo-row">
+      <img class="icon" src="icons/icon128.png" alt="DentaVet">
+      <span class="app-name">DentaVet</span>
+    </div>
+    <div class="tagline">
+      Veterinary dental charting for <strong>dogs</strong> & <strong>cats</strong><br>
+      with one-click <strong>EzyVet</strong> integration
+    </div>
+    <div class="badge-row">
+      <span class="badge">Triadan System</span>
+      <span class="badge">Auto-Push to EzyVet</span>
+      <span class="badge">Print Reports</span>
+    </div>
+  </div>
+</body>
+</html>
