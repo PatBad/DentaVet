@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DentaVet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Interactive veterinary dental charting for dogs and cats using the Modified Triadan System. Integrates with Ezyvet.",
   "permissions": ["sidePanel", "storage", "activeTab", "scripting", "alarms"],
   "host_permissions": ["*://*.ezyvet.com/*", "https://api.lemonsqueezy.com/*"],
