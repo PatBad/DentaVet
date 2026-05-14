@@ -3,7 +3,7 @@
 
 const LEMON_API = 'https://api.lemonsqueezy.com/v1/licenses';
 const STORAGE_KEY = 'dentavet_licence';
-const TRIAL_DAYS = 14;
+const TRIAL_DAYS = 30;
 const TRIAL_MS = TRIAL_DAYS * 24 * 60 * 60 * 1000;
 const OFFLINE_GRACE_DAYS = 7;
 const OFFLINE_GRACE_MS = OFFLINE_GRACE_DAYS * 24 * 60 * 60 * 1000;
